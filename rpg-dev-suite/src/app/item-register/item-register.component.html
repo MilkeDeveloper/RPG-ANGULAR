@@ -1,0 +1,138 @@
+<div class="overflow-x-hidden">
+    <div class="flex items-center h-[74px] max-w-full bg-[#1e1e1e] ">
+        <div class="w-[200px]">
+            <p class=" ml-16 text-[12px] font-extrabold" >ITENS DATABASE</p>
+        </div>
+        <!---<div class="w-[100vw] flex ml-2 justify-center items-center gap-24">
+            <ul *ngFor="let menu of menuTypes" >
+                <li class="text-sm font-semibold text-[#81c784]"> <a href="">{{ menu }}</a></li>
+            </ul>
+            <span class="ml-[56px] p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input class="" type="text" pInputText  />
+            </span>
+        </div>-->
+    </div>
+    <div  class=" max-[1280px]:flex-col min-[960px]:flex min-[1280px]:gap-x-6 justify-center mx-4  my-16 ">
+        <div id="card-1" class="pt-6 rounded-xl px-12 bg-[#1e1e1e] xl:max-w-[50vw] max-w-[95vw] min-[1280px]:h-[80vh]  h-[160vh] shadow-[#080808] shadow-sm">
+            <div class=" mb-12 border-b-2 border-[#81c784]">
+                <p class="mb-12 mt-6 font-bold text-[20px]">Criação de item</p>
+                
+            </div>
+            <div id="campo-item-name" class="min-[1280px]:flex w-[900px]">
+                
+                <div class="min-[1280px]:w-[50vw]">
+                    <span class="mb-6 p-float-label">
+                        <input [(ngModel)]="ItemName" pInputText id="username" />
+                        <label class="ml-1" htmlFor="nome">nome</label>
+                    </span>
+                    <p-dropdown [(ngModel)]="selectedType" class="" [options]="itemTypes" optionLabel="type"></p-dropdown>
+                    <div>
+                        <span class="mt-6 min-[1280px]:mt-8 p-float-label">
+                            <textarea [(ngModel)]="desc" class="min-[1280px]:w-[20vw] w-[68vw] max-h-[60%] h-[60%]" 
+                            id="float-input" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
+                            <label for="float-input">Descrição</label>
+                            
+                        </span>
+                        <span class=" mt-6 p-float-label">
+                            <textarea [(ngModel)]="effect" class="min-[1280px]:w-[20vw] w-[68vw] max-h-[60%] h-[60%] " 
+                            id="float-input" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
+                            <label for="float-input">Efeito</label>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="min-[1280px]:w-[50vw]">
+                    
+                    
+                    <span class="min-[1280px]:mt-0 mt-8 mb-4 p-float-label">
+                        <textarea [(ngModel)]="img" class="min-[1280px]:w-[20vw] w-[68vw] max-h-[50%] h-[80%]" 
+                        id="float-input" rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>                        
+                        <label for="float-input">URL da imegem</label>
+                    </span>
+                    <div class="min-[1280px]:flex gap-x-16 " >
+                        <div class="">
+                            <label class="mt-4" for="">Peso:</label>
+                            <div class="mt-4 mb-4 flex ">
+                                
+                                <p-button (touchstart)="startDecrementValue()" (touchend)="stopValue()" (mousedown)="startDecrementValue()" (mouseup)="stopValue()" 
+                                icon="pi pi-minus" styleClass="p-button-outlined"></p-button>
+                                <input [(ngModel)]="weight" class="text-center w-[50px] h-[50px]" [disabled]="true" [value]="weight" pInputText id="value"  placeholder="0"  />
+                                <p-button (touchstart)="startIncrementValue()" (touchend)="stopValue()" (mousedown)="startIncrementValue()" (mouseup)="stopValue()" 
+                                icon="pi pi-plus" styleClass="p-button-outlined"></p-button>
+                            </div>
+                            <label for="">Valor de venda:</label>
+                            
+                            <div class="mt-4 flex">
+                                <p-inputNumber [(ngModel)]="value" inputId="minmax" mode="decimal" [min]="0" [max]="100"> </p-inputNumber>
+                            </div>
+                        </div>
+                        <div class="min-[1280px]:mt-0 mt-6 flex flex-col">
+                            <label class="mt-4 min-[1280px]:mt-0" for="">Raridade:</label>
+                            <p-dropdown [(ngModel)]="selectedRarity" class="mt-4" [options]="itemRarity" optionLabel="rarity"></p-dropdown>
+                            <label class="mt-4 min-[1280px]:mt-6" for="">Classes que utilizam:</label>
+                            <p-dropdown [(ngModel)]="selectedClass" class="mt-4" [options]="itemClass" optionLabel="class"></p-dropdown>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                
+                
+            </div>
+            <div class="mt-10 min-[1280px]:mt-12 flex justify-end  min-[1280px]:justify-end" >
+                <p-button [disabled]="(!effect || !img || !ItemName) " (click)="createNewItem()" label="Criar Item" styleClass="p-button-outlined"></p-button>
+            </div>
+            
+        </div>
+        <div class=" flex flex-col">
+            <div class=" pt-6 max-[1280px]:mt-6 px-12 rounded-xl bg-[#1e1e1e] sm:max-w-[95vw] xl:max-w-[30vw] h-[80vh] shadow-[#080808] shadow-sm">
+                <div class=" mb-12 border-b-2 border-[#81c784]">
+                    <p class="mb-12 mt-6 font-bold text-[20px]">Lista de itens</p>
+                </div>
+        
+                <div   class="h-[450px] min-[1280px]:w-[24vw] w-[70vw] mr-6  overflow-x-hidden">
+                    <ul *ngFor="let item of items| async"  index="i" class="border-none flex mt-2 alert  hover:scale-105 transision duration-200">
+                        <p-panel class="px-3 min-[1280px]:ml-4 cursor-pointer w-[68vw]  " [collapsed]="true" toggler="header" header="{{ item.ItemName }}" [toggleable]="true">
+                            <div class="flex min-[1280px]:w-[20vw] w-[100vw] h-[100px]" >
+                                <div class="w-[65px] h-[65px]">
+                                    <img width="150px" height="30px" src="{{ item.item_img }}" alt="">
+    
+                                </div>
+                                
+                                <div class=" w-[150px] min-[1280px]:w-[18vw]  h-[120px] overflow-x-hidden">
+                                    <p class="ml-4 text-[12px]">{{ item.item_desc }} </p>
+                                    <div class="ml-4 mb-2 ">
+                                        <p class="mt-4 text-[12px]"> <span class="font-bold">Efeito:</span> {{ item.item_effect }}</p>
+                                        <p class="mt-4 text-[12px]"> <span class="font-bold">Tipo:</span> {{item.item_type}}</p>
+                                        <p class="mt-4 text-[12px]"><span class="font-bold">Classes que utilizam:</span> {{ item.item_class }} </p>
+                                        <div class="flex">
+                                            <span class="font-bold mt-4 text-[12px]">Raridade:</span>
+                                            <p [ngStyle]="{'color': (item.item_rarity === 'Lendário') ? 'yellow' 
+                                            : (item.item_rarity === 'Epico') ? 'purple' 
+                                            : (item.item_rarity === 'Raro') ? '#00A6FF' 
+                                            : (item.item_rarity === 'Incomum') ? 'green' : 'gray' }" 
+                                            class="mt-4 ml-3 text-[12px] font-bold"> {{ item.item_rarity }} </p>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            <p-divider class="p-1"></p-divider>
+                                <div class=" mb-4 mx-2  text-sm items-center flex justify-between">
+                                    <p><span class="font-semibold">Peso:</span> {{ item.item_weight }} </p>
+                                    <p> <span class="font-semibold">Venda:</span> {{ item.item_value }} <span class="font-semibold">Gold</span></p>
+                                </div>
+                            </p-panel>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
